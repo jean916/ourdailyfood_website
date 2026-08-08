@@ -9,7 +9,7 @@ export default function FeaturedMeals() {
         <p className="mt-3 text-gray-600">Discover our most popular dishes.</p>
       </div>
       <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-        {products.slice(0, 4).map((product) => (
+        {products.map((product) => (
           <ProductCard key={product.id} product={product} />
         ))}
       </div>

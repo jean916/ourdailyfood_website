@@ -8,7 +8,8 @@ export const products: Product[] = [
     price: 5500,
     image: "/images/products/burger-classic.svg",
     rating: 5,
-    description: "Juicy grilled beef burger with fresh lettuce, tomato, cheese and signature sauce."
+    description:
+      "Juicy grilled beef burger with fresh lettuce, tomato, cheese and signature sauce.",
   },
   {
     id: 2,
@@ -17,7 +18,8 @@ export const products: Product[] = [
     price: 6000,
     image: "/images/products/burrito-chicken.svg",
     rating: 5,
-    description: "Soft tortilla filled with grilled chicken, vegetables and melted cheese."
+    description:
+      "Soft tortilla filled with grilled chicken, vegetables and melted cheese.",
   },
   {
     id: 3,
@@ -26,7 +28,8 @@ export const products: Product[] = [
     price: 4000,
     image: "/images/products/hotdog-classic.svg",
     rating: 4,
-    description: "Grilled hot dog served with fresh vegetables, ketchup and mustard."
+    description:
+      "Grilled hot dog served with fresh vegetables, ketchup and mustard.",
   },
   {
     id: 4,
@@ -35,7 +38,8 @@ export const products: Product[] = [
     price: 7500,
     image: "/images/products/fried-rice-beef.svg",
     rating: 5,
-    description: "Delicious fried rice mixed with tender beef and fresh vegetables."
+    description:
+      "Delicious fried rice mixed with tender beef and fresh vegetables.",
   },
   {
     id: 5,
@@ -44,7 +48,8 @@ export const products: Product[] = [
     price: 5000,
     image: "/images/products/chicken-salad.svg",
     rating: 5,
-    description: "Fresh salad topped with grilled chicken, tomatoes, cucumber and dressing."
+    description:
+      "Fresh salad topped with grilled chicken, tomatoes, cucumber and dressing.",
   },
   {
     id: 6,
@@ -53,7 +58,8 @@ export const products: Product[] = [
     price: 3000,
     image: "/images/products/fries.svg",
     rating: 4,
-    description: "Golden crispy French fries served hot with tomato ketchup."
+    description:
+      "Golden crispy French fries served hot with tomato ketchup.",
   },
   {
     id: 7,
@@ -62,7 +68,8 @@ export const products: Product[] = [
     price: 1500,
     image: "/images/products/coca-cola.svg",
     rating: 5,
-    description: "Refreshing chilled soft drink served ice cold."
+    description:
+      "Refreshing chilled soft drink served ice cold.",
   },
   {
     id: 8,
@@ -71,6 +78,7 @@ export const products: Product[] = [
     price: 2500,
     image: "/images/products/mango-juice.svg",
     rating: 5,
-    description: "Freshly prepared mango juice made from ripe natural mangoes."
-  }
+    description:
+      "Freshly prepared mango juice made from ripe natural mangoes.",
+  },
 ];

@@ -8,15 +8,33 @@ export default function MenuPage() {
   return (
     <>
       <Navbar />
-      <main className="mx-auto max-w-7xl px-6 py-10">
-        <div className="mb-10">
-          <h1 className="text-4xl font-extrabold">Our Menu</h1>
-          <p className="mt-2 text-gray-600">Fresh meals made for every craving.</p>
+
+      <main className="mx-auto max-w-7xl px-6 py-16">
+        {/* Page Header */}
+        <div className="mb-10 text-center">
+          <h1 className="text-5xl font-bold">
+            Our Menu
+          </h1>
+
+          <p className="mt-4 text-lg text-gray-600">
+            Fresh meals made for every craving.
+          </p>
         </div>
-        <SearchBar />
-        <CategoryFilter />
+
+        {/* Search */}
+        <div className="mb-8">
+          <SearchBar />
+        </div>
+
+        {/* Categories */}
+        <div className="mb-10">
+          <CategoryFilter />
+        </div>
+
+        {/* Products */}
         <MenuGrid />
       </main>
+
       <Footer />
     </>
   );
