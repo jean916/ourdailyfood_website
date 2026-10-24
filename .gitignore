@@ -8,3 +8,6 @@ dist/
 .env.test.local
 .env.production.local
 .DS_Store
+password.txt
+*.bak
+*.backup

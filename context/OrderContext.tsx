@@ -1,12 +1,13 @@
+
 "use client";
 
 import {
   createContext,
   useContext,
+  useEffect,
   useState,
   ReactNode,
 } from "react";
-import { Product } from "@/types/product";
 import { CartItem } from "@/context/CartContext";
 
 export interface Order {
@@ -60,11 +61,17 @@ interface OrderContextType {
     subtotal: number,
     deliveryFee: number
   ) => Order;
+  updateOrderStatus: (
+    orderId: string,
+    status: Order["status"]
+  ) => void;
 }
 
 const OrderContext = createContext<OrderContextType | undefined>(
   undefined
 );
+
+const STORAGE_KEY = "ourdailyfood-orders";
 
 export function OrderProvider({
   children,
@@ -72,6 +79,37 @@ export function OrderProvider({
   children: ReactNode;
 }) {
   const [orders, setOrders] = useState<Order[]>([]);
+  const [storageLoaded, setStorageLoaded] = useState(false);
+
+  // Load saved orders once when the provider starts.
+  useEffect(() => {
+    try {
+      const savedOrders = localStorage.getItem(STORAGE_KEY);
+
+      if (savedOrders) {
+        const parsedOrders: unknown = JSON.parse(savedOrders);
+
+        if (Array.isArray(parsedOrders)) {
+          setOrders(parsedOrders as Order[]);
+        }
+      }
+    } catch (error) {
+      console.error("Failed to load saved orders:", error);
+    } finally {
+      setStorageLoaded(true);
+    }
+  }, []);
+
+  // Save only after the initial load has finished.
+  useEffect(() => {
+    if (!storageLoaded) return;
+
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(orders));
+    } catch (error) {
+      console.error("Failed to save orders:", error);
+    }
+  }, [orders, storageLoaded]);
 
   function createOrder(
     customer: CustomerInformation,
@@ -79,7 +117,7 @@ export function OrderProvider({
     items: CartItem[],
     subtotal: number,
     deliveryFee: number
-  ) {
+  ): Order {
     const total = subtotal + deliveryFee;
 
     const order: Order = {
@@ -94,12 +132,20 @@ export function OrderProvider({
       createdAt: new Date().toISOString(),
     };
 
-    setOrders((currentOrders) => [
-      ...currentOrders,
-      order,
-    ]);
+    setOrders((currentOrders) => [...currentOrders, order]);
 
     return order;
+  }
+
+  function updateOrderStatus(
+    orderId: string,
+    status: Order["status"]
+  ) {
+    setOrders((currentOrders) =>
+      currentOrders.map((order) =>
+        order.id === orderId ? { ...order, status } : order
+      )
+    );
   }
 
   return (
@@ -107,6 +153,7 @@ export function OrderProvider({
       value={{
         orders,
         createOrder,
+        updateOrderStatus,
       }}
     >
       {children}

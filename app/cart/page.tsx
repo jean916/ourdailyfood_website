@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
@@ -54,9 +54,12 @@ export default function CartPage() {
                 <span>Total</span>
                 <span>{subtotal.toLocaleString()} RWF</span>
               </div>
-              <button className="mt-6 w-full rounded-xl bg-yellow-400 py-4 font-bold hover:bg-yellow-500">
+              <Link
+                href="/checkout"
+                className="mt-6 block w-full rounded-xl bg-yellow-400 py-4 text-center font-bold hover:bg-yellow-500"
+              >
                 Checkout
-              </button>
+              </Link>
               <button
                 onClick={clearCart}
                 className="mt-3 w-full rounded-xl border border-red-200 py-3 font-semibold text-red-600 hover:bg-red-50"
