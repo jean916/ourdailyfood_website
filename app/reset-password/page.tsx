@@ -265,7 +265,7 @@ export default function ResetPasswordPage() {
         <button
           type="submit"
           disabled={!isReady || isLoading}
-          className="w-full rounded-lg bg-green-700 px-4 py-3 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-50"
+          className="w-full rounded-lg bg-yellow-400 px-4 py-3 font-semibold text-black disabled:cursor-not-allowed disabled:opacity-50"
         >
           {!isReady
             ? "Waiting for reset link..."

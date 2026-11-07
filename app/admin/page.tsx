@@ -6,6 +6,17 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabase";
 import { useOrders, Order } from "@/context/OrderContext";
 
+// Matches the database rule: orders move forward one step at a time.
+const NEXT_STATUSES: Record<string, string[]> = {
+  Pending: ["Confirmed", "Cancelled"],
+  Confirmed: ["Preparing", "Cancelled"],
+  Preparing: ["Out for Delivery", "Cancelled"],
+  "Out for Delivery": ["Delivered"],
+};
+
+function canMove(current: string, next: string) {
+  return current === next || (NEXT_STATUSES[current] ?? []).includes(next);
+}
 const statuses: Order["status"][] = [
   "Pending",
   "Confirmed",
@@ -193,9 +204,9 @@ export default function AdminPage() {
       .eq("id", orderId);
 
     if (error) {
-      console.error("Failed to update order status:", error);
+      console.error("Failed to update order status:", error.message, error.code);
       setPageError(
-        "The order status could not be saved. Please try again."
+        "The order status could not be saved: " + error.message
       );
       setUpdatingOrderId("");
       return;
@@ -219,10 +230,11 @@ export default function AdminPage() {
 
   // Show database orders plus local orders that are not already represented
   // by a database order. This keeps older browser orders visible.
-  const databaseIds = new Set(databaseOrders.map((order) => order.id));
+  
   const combinedOrders = [
     ...databaseOrders,
-    ...localDisplayOrders.filter((order) => !databaseIds.has(order.id)),
+    // All orders are stored in the database now, so browser-only copies are hidden.
+    ...localDisplayOrders.filter(() => false),
   ].sort(
     (a, b) =>
       new Date(b.createdAt).getTime() -
@@ -358,7 +370,7 @@ export default function AdminPage() {
                       }}
                       className="w-full rounded-xl border border-gray-300 bg-white p-3 disabled:cursor-not-allowed disabled:bg-gray-100"
                     >
-                      {statuses.map((status) => (
+                      {statuses.filter((status) => order.source !== "database" || canMove(order.status, status)).map((status) => (
                         <option key={status} value={status}>
                           {status}
                         </option>

@@ -6,7 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/home/Footer";
 import { useCart } from "@/context/CartContext";
 import { useOrders } from "@/context/OrderContext";
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase";import { PAYMENT_METHODS } from "@/lib/orders";
 
 export default function CheckoutPage() {
   const { cartItems, clearCart } = useCart();
@@ -71,7 +71,7 @@ export default function CheckoutPage() {
           subtotal,
           delivery_fee: deliveryFee,
           total,
-          status: "Pending",
+          status: "Pending", payment_method: String(formData.get("paymentMethod") || "cash_on_delivery"),
         })
         .select("id, created_at")
         .single();
@@ -137,7 +137,7 @@ export default function CheckoutPage() {
             </div>
 
             <p className="mt-6 text-gray-500">
-              Your order has been received and is awaiting confirmation.
+              Your order has been received and is awaiting confirmation. <Link href="/my-orders" className="font-semibold text-yellow-700 underline">Track it in My orders</Link>
             </p>
 
             <Link
@@ -374,6 +374,19 @@ export default function CheckoutPage() {
                   </div>
                 </div>
               </div>
+
+              <fieldset className="mt-6">
+                <legend className="mb-2 font-semibold">Payment method</legend>
+                <div className="space-y-2">
+                  {PAYMENT_METHODS.map((method, index) => (
+                    <label key={method.value} className="flex cursor-pointer items-center gap-3 rounded-xl border p-3 hover:border-yellow-400">
+                      <input type="radio" name="paymentMethod" value={method.value} defaultChecked={index === 0} />
+                      <span>{method.label}</span>
+                    </label>
+                  ))}
+                </div>
+                <p className="mt-2 text-xs text-gray-500">Online payments are confirmed with a one-time code in My orders (demo mode).</p>
+              </fieldset>
 
               {errorMessage && (
                 <p role="alert" className="mt-5 text-sm text-red-600">

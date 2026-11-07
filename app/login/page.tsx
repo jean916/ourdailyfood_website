@@ -30,7 +30,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.push("/");
+      const { data: agent } = await supabase.rpc("is_delivery_agent"); const next = new URLSearchParams(window.location.search).get("next"); router.push(agent === true ? "/delivery" : next && next.startsWith("/") && !next.startsWith("//") ? next : "/");
       router.refresh();
     } catch {
       setMessage("Something went wrong. Please try again.");
@@ -43,7 +43,7 @@ export default function LoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10">
       <section className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-green-800">
+          <h1 className="text-3xl font-bold text-yellow-500">
             OUR DAILY FOOD
           </h1>
           <h2 className="mt-3 text-xl font-semibold text-gray-800">
@@ -69,7 +69,7 @@ export default function LoginPage() {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-100"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
               placeholder="you@example.com"
             />
           </div>
@@ -88,7 +88,7 @@ export default function LoginPage() {
               required
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-100"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
               placeholder="Enter your password"
             />
           </div>
@@ -102,7 +102,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-lg bg-green-700 px-4 py-3 font-semibold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-lg bg-yellow-400 px-4 py-3 font-semibold text-black transition hover:bg-yellow-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? "Signing in..." : "Sign In"}
           </button>
@@ -111,7 +111,7 @@ export default function LoginPage() {
         <p className="mt-4 text-center text-sm">
           <Link
             href="/forgot-password"
-            className="font-semibold text-green-700 hover:underline"
+            className="font-semibold text-yellow-700 hover:underline"
           >
             Forgot password?
           </Link>
@@ -121,7 +121,7 @@ export default function LoginPage() {
           Don't have an account?{" "}
           <Link
             href="/register"
-            className="font-semibold text-green-700 hover:underline"
+            className="font-semibold text-yellow-700 hover:underline"
           >
             Register
           </Link>
@@ -131,7 +131,7 @@ export default function LoginPage() {
           Want to order without an account?{" "}
           <Link
             href="/checkout"
-            className="font-semibold text-green-700 hover:underline"
+            className="font-semibold text-yellow-700 hover:underline"
           >
             Continue as a guest
           </Link>

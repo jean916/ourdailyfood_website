@@ -1,4 +1,4 @@
-
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 
@@ -25,5 +25,26 @@ export default async function AdminLayout({
     redirect("/");
   }
 
-  return <>{children}</>;
+  const links = [
+    { href: "/admin", label: "Orders" },
+    { href: "/admin/assign", label: "Delivery & payments" },
+    { href: "/admin/menu", label: "Menu" },
+    { href: "/admin/reports", label: "Reports" },
+  ];
+
+  return (
+    <>
+      <nav className="bg-black text-white">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-x-6 gap-y-2 px-6 py-3 text-sm font-semibold">
+          <span className="text-yellow-400">Admin</span>
+          {links.map((link) => (
+            <Link key={link.href} href={link.href} className="hover:text-yellow-400">
+              {link.label}
+            </Link>
+          ))}
+        </div>
+      </nav>
+      {children}
+    </>
+  );
 }

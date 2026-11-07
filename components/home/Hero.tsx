@@ -16,7 +16,13 @@ export default function Hero() {
             Explore Menu
           </Link>
         </div>
-        <div className="rounded-3xl bg-yellow-400 p-10 text-center text-8xl">🍔</div>
+        <div className="rounded-3xl bg-yellow-400 p-10 text-center">
+          <img
+            src="/images/products/Feast.png"
+            alt="Fresh ingredient feast"
+            className="mx-auto h-auto max-h-96 w-full rounded-2xl object-cover"
+          />
+        </div>
       </div>
     </section>
   );

@@ -11,3 +11,9 @@ dist/
 password.txt
 *.bak
 *.backup
+
+.venv/
+
+database.env.txt
+
+*.tsbuildinfo

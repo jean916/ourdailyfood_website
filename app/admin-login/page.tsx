@@ -103,7 +103,7 @@ export default function AdminLoginPage() {
     <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10">
       <section className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-green-800">
+          <h1 className="text-3xl font-bold text-yellow-500">
             OUR DAILY FOOD
           </h1>
 
@@ -132,7 +132,7 @@ export default function AdminLoginPage() {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-100"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
               placeholder="Enter your admin email"
             />
           </div>
@@ -152,7 +152,7 @@ export default function AdminLoginPage() {
               required
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-100"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
               placeholder="Enter your password"
             />
 
@@ -161,7 +161,7 @@ export default function AdminLoginPage() {
                 type="button"
                 onClick={handleForgotPassword}
                 disabled={isLoading || isResetting}
-                className="text-sm font-medium text-green-700 hover:text-green-900 disabled:opacity-60"
+                className="text-sm font-medium text-yellow-700 hover:text-yellow-900 disabled:opacity-60"
               >
                 {isResetting
                   ? "Requesting reset..."
@@ -182,7 +182,7 @@ export default function AdminLoginPage() {
           <button
             type="submit"
             disabled={isLoading || isResetting}
-            className="w-full rounded-lg bg-green-700 px-4 py-3 font-semibold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-lg bg-yellow-400 px-4 py-3 font-semibold text-black transition hover:bg-yellow-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? "Signing in..." : "Sign In"}
           </button>

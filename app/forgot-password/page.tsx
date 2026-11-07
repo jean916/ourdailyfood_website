@@ -68,7 +68,7 @@ export default function ForgotPasswordPage() {
     <main className="flex min-h-screen items-center justify-center bg-gray-50 px-4 py-10">
       <section className="w-full max-w-md rounded-2xl bg-white p-8 shadow-lg">
         <div className="mb-8 text-center">
-          <h1 className="text-3xl font-bold text-green-800">
+          <h1 className="text-3xl font-bold text-yellow-500">
             OUR DAILY FOOD
           </h1>
 
@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
               required
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-green-700 focus:ring-2 focus:ring-green-100"
+              className="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-yellow-400 focus:ring-2 focus:ring-yellow-100"
               placeholder="you@example.com"
             />
           </div>
@@ -115,7 +115,7 @@ export default function ForgotPasswordPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full rounded-lg bg-green-700 px-4 py-3 font-semibold text-white transition hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-lg bg-yellow-400 px-4 py-3 font-semibold text-black transition hover:bg-yellow-500 disabled:cursor-not-allowed disabled:opacity-60"
           >
             {isLoading ? "Sending..." : "Send reset email"}
           </button>
@@ -125,7 +125,7 @@ export default function ForgotPasswordPage() {
           Remembered your password?{" "}
           <Link
             href="/login"
-            className="font-semibold text-green-700 hover:underline"
+            className="font-semibold text-yellow-700 hover:underline"
           >
             Back to login
           </Link>
