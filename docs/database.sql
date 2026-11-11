@@ -354,3 +354,30 @@ create index if not exists orders_customer_idx on public.orders (customer_id);
 create index if not exists orders_agent_idx on public.orders (delivery_agent_id);
 create index if not exists orders_status_created_idx on public.orders (status, created_at desc);
 create index if not exists feedback_customer_idx on public.feedback (customer_id);
+
+-- 13. Order rules (updated): online orders must be paid before they are confirmed,
+--     and an order cannot go out for delivery without a delivery person.
+create or replace function public.orders_before_update()
+returns trigger language plpgsql as $$
+begin
+  if new.status is distinct from old.status then
+    if not (
+      (old.status = 'Pending' and new.status in ('Confirmed', 'Cancelled')) or
+      (old.status = 'Confirmed' and new.status in ('Preparing', 'Cancelled')) or
+      (old.status = 'Preparing' and new.status in ('Out for Delivery', 'Cancelled')) or
+      (old.status = 'Out for Delivery' and new.status = 'Delivered')
+    ) then
+      raise exception 'Invalid status change: % to %', old.status, new.status;
+    end if;
+    if new.status = 'Confirmed' and new.payment_method <> 'cash_on_delivery' and new.payment_status <> 'paid' then
+      raise exception 'This order must be paid online before it can be confirmed';
+    end if;
+    if new.status = 'Out for Delivery' and new.delivery_agent_id is null then
+      raise exception 'Assign a delivery person before sending the order out';
+    end if;
+    if new.status = 'Delivered' and new.payment_method = 'cash_on_delivery' then
+      new.payment_status := 'paid';
+    end if;
+  end if;
+  return new;
+end $$;
