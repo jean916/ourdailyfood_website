@@ -1,4 +1,4 @@
-﻿# OurDailyFood
+# OurDailyFood
 
 A web-based fast-food ordering and delivery system for Rwanda. Customers order food online, the restaurant manages the menu and orders, and delivery people deliver them.
 
@@ -133,7 +133,31 @@ Food photos are in `public/images/products/`. To use a new photo, copy it into t
 
 ## Documentation
 
-The UML diagrams (use case, sequence, activity, state and class) are in the `docs` folder.
+The UML diagrams are in the `docs` folder.
+
+**Use case diagram**
+
+![Use case diagram](docs/use-case.png)
+
+**Sequence diagram (placing an order)**
+
+![Sequence diagram](docs/sequence.png)
+
+**Activity diagram (swimlanes)**
+
+![Activity diagram](docs/activity.png)
+
+**State diagram (order status)**
+
+![Order status diagram](docs/order-status.png)
+
+**State diagram (payment status)**
+
+![Payment status diagram](docs/payment-status.png)
+
+**Class and database diagram**
+
+![Database diagram](docs/database.png)
 
 ## Important notes
 
