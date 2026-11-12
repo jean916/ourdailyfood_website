@@ -1,4 +1,4 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 
@@ -29,6 +29,7 @@ export default async function AdminLayout({
     { href: "/admin", label: "Orders" },
     { href: "/admin/assign", label: "Delivery & payments" },
     { href: "/admin/menu", label: "Menu" },
+    { href: "/admin/customers", label: "Customers" },
     { href: "/admin/reports", label: "Reports" },
   ];
 
