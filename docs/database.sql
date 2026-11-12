@@ -381,3 +381,62 @@ begin
   end if;
   return new;
 end $$;
+
+-- 14. Customer records: profiles table kept in sync with the accounts
+create table if not exists public.profiles (
+  id uuid primary key references auth.users (id) on delete cascade,
+  full_name text,
+  phone text,
+  avatar_url text,
+  created_at timestamptz not null default now()
+);
+alter table public.profiles enable row level security;
+
+drop policy if exists "read own profile or admin" on public.profiles;
+create policy "read own profile or admin" on public.profiles
+  for select to authenticated
+  using (id = auth.uid() or public.is_store_admin());
+
+drop policy if exists "update own profile" on public.profiles;
+create policy "update own profile" on public.profiles
+  for update to authenticated
+  using (id = auth.uid()) with check (id = auth.uid());
+
+create or replace function public.handle_new_user()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  insert into public.profiles (id, full_name, phone, avatar_url)
+  values (
+    new.id,
+    new.raw_user_meta_data ->> 'full_name',
+    new.raw_user_meta_data ->> 'phone',
+    nullif(new.raw_user_meta_data ->> 'avatar_url', '')
+  )
+  on conflict (id) do nothing;
+  return new;
+end $$;
+
+drop trigger if exists on_auth_user_created on auth.users;
+create trigger on_auth_user_created after insert on auth.users
+  for each row execute function public.handle_new_user();
+
+create or replace function public.handle_user_updated()
+returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  update public.profiles set
+    full_name = new.raw_user_meta_data ->> 'full_name',
+    phone = new.raw_user_meta_data ->> 'phone',
+    avatar_url = nullif(new.raw_user_meta_data ->> 'avatar_url', '')
+  where id = new.id;
+  return new;
+end $$;
+
+drop trigger if exists on_auth_user_updated on auth.users;
+create trigger on_auth_user_updated after update of raw_user_meta_data on auth.users
+  for each row execute function public.handle_user_updated();
+
+insert into public.profiles (id, full_name, phone, avatar_url)
+select id, raw_user_meta_data ->> 'full_name', raw_user_meta_data ->> 'phone',
+       nullif(raw_user_meta_data ->> 'avatar_url', '')
+from auth.users
+on conflict (id) do nothing;
